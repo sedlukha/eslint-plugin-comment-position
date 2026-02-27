@@ -1,0 +1,148 @@
+# eslint-plugin-comment-position
+
+[![npm](https://img.shields.io/npm/v/eslint-plugin-comment-position)](https://www.npmjs.com/package/eslint-plugin-comment-position)
+[![license](https://img.shields.io/npm/l/eslint-plugin-comment-position)](./LICENSE)
+
+Enforce a consistent comment position in your JavaScript/TypeScript code — either **above** the code or **beside** it (inline). Auto-fixable.
+
+## Installation
+
+```bash
+npm install -D eslint-plugin-comment-position
+```
+
+Requires `eslint >= 9.0.0` (flat config).
+
+---
+
+## Setup
+
+### Flat config (eslint.config.js)
+
+```js
+import commentPosition from "eslint-plugin-comment-position";
+
+export default [
+  {
+    plugins: { "comment-position": commentPosition },
+    rules: {
+      // Enforce all comments above the code:
+      "comment-position/comment-position": ["error", { position: "above" }],
+
+      // — or — enforce all comments beside the code (inline):
+      // "comment-position/comment-position": ["error", { position: "beside" }],
+    },
+  },
+];
+```
+
+### Built-in configs (shorthand)
+
+```js
+import commentPosition from "eslint-plugin-comment-position";
+
+export default [
+  // position: "above"  (recommended default)
+  ...commentPosition.configs.recommended,
+
+  // — or — position: "beside"
+  // ...commentPosition.configs["recommended-beside"],
+];
+```
+
+---
+
+## Rule: `comment-position/comment-position`
+
+Enforces that all line (`//`) and single-line block (`/* */`) comments are
+placed either **above** or **beside** the code they describe.
+
+Multi-line block comments (`/* \n ... \n */`) are intentionally ignored — they
+are typically used for JSDoc or file headers.
+
+### `position: "above"` — comments must be on their own line above the code
+
+**Correct** ✅
+
+```js
+// this is a comment
+const x = 1;
+
+/* block comment */
+const y = 2;
+```
+
+**Incorrect** ❌ (auto-fixed)
+
+```js
+const x = 1; // this is a comment
+//            ^^^^^^^^^^^^^^^^^^^^ move above
+
+/* block comment */ const y = 2;
+// ^^^^^^^^^^^^^^^^ move to its own line above
+```
+
+### `position: "beside"` — comments must be inline after the code
+
+**Correct** ✅
+
+```js
+const x = 1; // this is a comment
+const y = 2; /* block comment */
+```
+
+**Incorrect** ❌ (auto-fixed)
+
+```js
+// this is a comment
+const x = 1;
+// ^^^^^^^^^^^^^^^^^ move beside the code below
+
+/* block comment */ const y = 2;
+// ^^^^^^^^^^^^^^^^ move to end of line
+```
+
+---
+
+## Options
+
+| Option | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `position` | `"above"` \| `"beside"` | **yes** | — | Where comments must be placed |
+| `ignorePattern` | `string` | no | — | Regex string. Comments matching this pattern are skipped |
+| `applyDefaultIgnorePatterns` | `boolean` | no | `true` | When `true`, ESLint directive comments (`eslint-disable`, `eslint-disable-line`, etc.) are always ignored |
+
+### Example with options
+
+```js
+// eslint.config.js
+export default [
+  {
+    plugins: { "comment-position": commentPosition },
+    rules: {
+      "comment-position/comment-position": [
+        "error",
+        {
+          position: "above",
+          ignorePattern: "^\\s*TODO",          // ignore TODO comments
+          applyDefaultIgnorePatterns: true,    // ignore eslint directives (default)
+        },
+      ],
+    },
+  },
+];
+```
+
+---
+
+## See also
+
+- [`no-inline-comments`](https://eslint.org/docs/rules/no-inline-comments) — ESLint built-in, disallows inline comments entirely
+- [`line-comment-position`](https://eslint.org/docs/rules/line-comment-position) — ESLint built-in, similar rule for line comments only
+- [`@stylistic/line-comment-position`](https://eslint.style/rules/js/line-comment-position) — ESLint Stylistic equivalent
+
+---
+
+## License
+
+MIT
