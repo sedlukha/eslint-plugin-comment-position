@@ -1,6 +1,7 @@
 import type { Rule } from "eslint";
 
 export interface CommentPositionOptions {
+  position: "above" | "beside";
   ignorePattern?: string;
   applyDefaultIgnorePatterns?: boolean;
 }
@@ -11,9 +12,11 @@ export const DEFAULT_IGNORE =
 export const sharedSchema = [{
   type: "object" as const,
   properties: {
+    position: { type: "string", enum: ["above", "beside"] },
     ignorePattern: { type: "string" },
     applyDefaultIgnorePatterns: { type: "boolean" },
   },
+  required: ["position"],
   additionalProperties: false,
 }];
 

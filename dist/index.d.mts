@@ -8,8 +8,7 @@ declare const plugin: {
     version: string;
   };
   rules: {
-    above: eslint.Rule.RuleModule;
-    beside: eslint.Rule.RuleModule;
+    "comment-position": eslint.Rule.RuleModule;
   };
   configs: Record<string, Linter.Config[]>;
 };
