@@ -14,6 +14,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sedlukha/eslint-plugin-comment-position.git"
+  },
   "scripts": {
     "build": "tsdown",
     "test": "vitest run",
