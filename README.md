@@ -1,7 +1,10 @@
 # eslint-plugin-comment-position
 
-[![npm](https://img.shields.io/npm/v/eslint-plugin-comment-position)](https://www.npmjs.com/package/eslint-plugin-comment-position)
-[![license](https://img.shields.io/npm/l/eslint-plugin-comment-position)](./LICENSE)
+[![CI](https://github.com/sedlukha/eslint-plugin-comment-position/actions/workflows/ci.yml/badge.svg)](https://github.com/sedlukha/eslint-plugin-comment-position/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/sedlukha/eslint-plugin-comment-position/branch/main/graph/badge.svg)](https://codecov.io/gh/sedlukha/eslint-plugin-comment-position)
+[![npm version](https://img.shields.io/npm/v/eslint-plugin-comment-position.svg)](https://www.npmjs.com/package/eslint-plugin-comment-position)
+[![npm downloads](https://img.shields.io/npm/dm/eslint-plugin-comment-position.svg)](https://www.npmjs.com/package/eslint-plugin-comment-position)
+[![license](https://img.shields.io/npm/l/eslint-plugin-comment-position.svg)](LICENSE)
 
 Enforce a consistent comment position in your JavaScript/TypeScript code — either **above** the code or **beside** it (inline). Auto-fixable.
 
