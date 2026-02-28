@@ -9,7 +9,7 @@ const tester = new RuleTester({
 describe("comment-position rule", () => {
   describe("position: above", () => {
     it("passes valid cases and catches invalid ones", () => {
-      tester.run("comment-position", commentPosition, {
+      tester.run("position", commentPosition, {
         valid: [
           // Comment already above code
           { code: "// comment\nconst x = 1;", options: [{ position: "above" }] },
@@ -81,7 +81,7 @@ describe("comment-position rule", () => {
 
   describe("position: beside", () => {
     it("passes valid cases and catches invalid ones", () => {
-      tester.run("comment-position", commentPosition, {
+      tester.run("position", commentPosition, {
         valid: [
           // Comment already after code (inline)
           { code: "const x = 1; // inline", options: [{ position: "beside" }] },
