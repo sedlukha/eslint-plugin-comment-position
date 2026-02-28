@@ -3,7 +3,7 @@ import type { Linter } from "eslint";
 
 const plugin = {
   meta: { name: "eslint-plugin-comment-position", version: "0.1.0" },
-  rules: { "comment-position": commentPosition },
+  rules: { "position": commentPosition },
   configs: {} as Record<string, Linter.Config[]>,
 };
 
@@ -11,13 +11,13 @@ Object.assign(plugin.configs, {
   recommended: [
     {
       plugins: { "comment-position": plugin },
-      rules: { "comment-position/comment-position": ["error", { position: "above" }] },
+      rules: { "comment-position/position": ["error", { position: "above" }] },
     },
   ],
   "recommended-beside": [
     {
       plugins: { "comment-position": plugin },
-      rules: { "comment-position/comment-position": ["error", { position: "beside" }] },
+      rules: { "comment-position/position": ["error", { position: "beside" }] },
     },
   ],
 });

@@ -11,15 +11,12 @@ Enforce a consistent comment position in your JavaScript/TypeScript code — eit
 npm install -D eslint-plugin-comment-position
 ```
 
-Requires `eslint >= 9.0.0` (flat config).
+Supports ESLint 9 and 10.
 
----
-
-## Setup
-
-### Flat config (eslint.config.js)
+## Usage
 
 ```js
+// eslint.config.js
 import commentPosition from "eslint-plugin-comment-position";
 
 export default [
@@ -27,10 +24,10 @@ export default [
     plugins: { "comment-position": commentPosition },
     rules: {
       // Enforce all comments above the code:
-      "comment-position/comment-position": ["error", { position: "above" }],
+      "comment-position/position": ["error", { position: "above" }],
 
       // — or — enforce all comments beside the code (inline):
-      // "comment-position/comment-position": ["error", { position: "beside" }],
+      // "comment-position/position": ["error", { position: "beside" }],
     },
   },
 ];
@@ -50,9 +47,13 @@ export default [
 ];
 ```
 
----
+## Rules
 
-## Rule: `comment-position/comment-position`
+| Rule | Description | Fixable |
+|------|-------------|---------|
+| `comment-position/position` | Enforce comment position (above or beside code) | ✅ |
+
+## `comment-position/position`
 
 Enforces that all line (`//`) and single-line block (`/* */`) comments are
 placed either **above** or **beside** the code they describe.
@@ -60,19 +61,21 @@ placed either **above** or **beside** the code they describe.
 Multi-line block comments (`/* \n ... \n */`) are intentionally ignored — they
 are typically used for JSDoc or file headers.
 
-### `position: "above"` — comments must be on their own line above the code
+Unlike the built-in `no-inline-comments` and `line-comment-position` rules (and
+`@stylistic/line-comment-position`), this rule supports `--fix` and will
+automatically move comments to the correct position.
 
-**Correct** ✅
+### Options
 
-```js
-// this is a comment
-const x = 1;
+| Option | Type | Required | Default | Description |
+|--------|------|----------|---------|-------------|
+| `position` | `"above"` \| `"beside"` | **yes** | — | Where comments must be placed |
+| `ignorePattern` | `string` | no | — | Regex string. Comments matching this pattern are skipped |
+| `applyDefaultIgnorePatterns` | `boolean` | no | `true` | When `true`, ESLint directive comments (`eslint-disable`, `eslint-disable-line`, etc.) are always ignored |
 
-/* block comment */
-const y = 2;
-```
+### `position: "above"`
 
-**Incorrect** ❌ (auto-fixed)
+Examples of 👎 incorrect code for these options:
 
 ```js
 const x = 1; // this is a comment
@@ -82,16 +85,19 @@ const x = 1; // this is a comment
 // ^^^^^^^^^^^^^^^^ move to its own line above
 ```
 
-### `position: "beside"` — comments must be inline after the code
-
-**Correct** ✅
+Examples of 👍 correct code for these options:
 
 ```js
-const x = 1; // this is a comment
-const y = 2; /* block comment */
+// this is a comment
+const x = 1;
+
+/* block comment */
+const y = 2;
 ```
 
-**Incorrect** ❌ (auto-fixed)
+### `position: "beside"`
+
+Examples of 👎 incorrect code for these options:
 
 ```js
 // this is a comment
@@ -102,15 +108,12 @@ const x = 1;
 // ^^^^^^^^^^^^^^^^ move to end of line
 ```
 
----
+Examples of 👍 correct code for these options:
 
-## Options
-
-| Option | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `position` | `"above"` \| `"beside"` | **yes** | — | Where comments must be placed |
-| `ignorePattern` | `string` | no | — | Regex string. Comments matching this pattern are skipped |
-| `applyDefaultIgnorePatterns` | `boolean` | no | `true` | When `true`, ESLint directive comments (`eslint-disable`, `eslint-disable-line`, etc.) are always ignored |
+```js
+const x = 1; // this is a comment
+const y = 2; /* block comment */
+```
 
 ### Example with options
 
@@ -120,7 +123,7 @@ export default [
   {
     plugins: { "comment-position": commentPosition },
     rules: {
-      "comment-position/comment-position": [
+      "comment-position/position": [
         "error",
         {
           position: "above",
@@ -133,15 +136,11 @@ export default [
 ];
 ```
 
----
-
 ## See also
 
-- [`no-inline-comments`](https://eslint.org/docs/rules/no-inline-comments) — ESLint built-in, disallows inline comments entirely
-- [`line-comment-position`](https://eslint.org/docs/rules/line-comment-position) — ESLint built-in, similar rule for line comments only
-- [`@stylistic/line-comment-position`](https://eslint.style/rules/js/line-comment-position) — ESLint Stylistic equivalent
-
----
+- [`no-inline-comments`](https://eslint.org/docs/rules/no-inline-comments) — ESLint built-in, no `--fix` support
+- [`line-comment-position`](https://eslint.org/docs/rules/line-comment-position) — ESLint built-in, no `--fix` support
+- [`@stylistic/line-comment-position`](https://eslint.style/rules/js/line-comment-position) — ESLint Stylistic, no `--fix` support
 
 ## License
 

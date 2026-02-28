@@ -20,7 +20,7 @@
     "test:watch": "vitest"
   },
   "peerDependencies": {
-    "eslint": ">=9.0.0"
+    "eslint": "^9.0.0 || ^10.0.0"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.0",
