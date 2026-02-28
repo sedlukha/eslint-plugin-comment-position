@@ -5,6 +5,29 @@
 
 Enforce a consistent comment position in your JavaScript/TypeScript code — either **above** the code or **beside** it (inline). Auto-fixable.
 
+## Why?
+
+ESLint does not enforce consistent comment placement.
+This plugin ensures comments are always placed either:
+
+- above the code
+- or inline with it
+
+This improves readability, diff clarity, and team consistency.
+
+### ❌ Before
+
+```js
+const foo = 1; // explanation
+```
+
+### ✅ After (position: "above")
+
+```js
+// explanation
+const foo = 1;
+```
+
 ## Installation
 
 ```bash
@@ -49,9 +72,9 @@ export default [
 
 ## Rules
 
-| Rule | Description | Fixable |
-|------|-------------|---------|
-| `comment-position/position` | Enforce comment position (above or beside code) | ✅ |
+| Rule                        | Description                                     | Fixable |
+| --------------------------- | ----------------------------------------------- | ------- |
+| `comment-position/position` | Enforce comment position (above or beside code) | ✅      |
 
 ## `comment-position/position`
 
@@ -67,11 +90,11 @@ automatically move comments to the correct position.
 
 ### Options
 
-| Option | Type | Required | Default | Description |
-|--------|------|----------|---------|-------------|
-| `position` | `"above"` \| `"beside"` | **yes** | — | Where comments must be placed |
-| `ignorePattern` | `string` | no | — | Regex string. Comments matching this pattern are skipped |
-| `applyDefaultIgnorePatterns` | `boolean` | no | `true` | When `true`, ESLint directive comments (`eslint-disable`, `eslint-disable-line`, etc.) are always ignored |
+| Option                       | Type                    | Required | Default | Description                                                                                               |
+| ---------------------------- | ----------------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `position`                   | `"above"` \| `"beside"` | **yes**  | —       | Where comments must be placed                                                                             |
+| `ignorePattern`              | `string`                | no       | —       | Regex string. Comments matching this pattern are skipped                                                  |
+| `applyDefaultIgnorePatterns` | `boolean`               | no       | `true`  | When `true`, ESLint directive comments (`eslint-disable`, `eslint-disable-line`, etc.) are always ignored |
 
 ### `position: "above"`
 
@@ -127,8 +150,8 @@ export default [
         "error",
         {
           position: "above",
-          ignorePattern: "^\\s*TODO",          // ignore TODO comments
-          applyDefaultIgnorePatterns: true,    // ignore eslint directives (default)
+          ignorePattern: "^\\s*TODO", // ignore TODO comments
+          applyDefaultIgnorePatterns: true, // ignore eslint directives (default)
         },
       ],
     },

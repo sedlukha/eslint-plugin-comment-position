@@ -18,6 +18,17 @@
     "type": "git",
     "url": "https://github.com/sedlukha/eslint-plugin-comment-position.git"
   },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "comments",
+    "comment-style",
+    "lint",
+    "code-style",
+    "autofix",
+    "formatting"
+  ],
   "scripts": {
     "build": "tsdown",
     "test": "vitest run",
