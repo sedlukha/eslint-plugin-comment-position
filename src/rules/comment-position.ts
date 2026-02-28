@@ -1,6 +1,12 @@
 import type { Rule } from "eslint";
 import { shouldIgnore, sharedSchema, type CommentPositionOptions } from "./utils.js";
 
+function isJSXComment(comment: any, src: string): boolean {
+  if (comment.type !== "Block") return false;
+  const [start, end] = comment.range as [number, number];
+  return start > 0 && src[start - 1] === "{" && end < src.length && src[end] === "}";
+}
+
 export const commentPosition: Rule.RuleModule = {
   meta: {
     type: "layout",
@@ -19,8 +25,10 @@ export const commentPosition: Rule.RuleModule = {
 
     return {
       Program() {
+        const src = sourceCode.getText();
         for (const comment of sourceCode.getAllComments()) {
           if (shouldIgnore(comment.value, options)) continue;
+          if (isJSXComment(comment, src)) continue;
 
           if (options.position === "above") {
             if (comment.type === "Line") {
@@ -33,7 +41,6 @@ export const commentPosition: Rule.RuleModule = {
                 loc: comment.loc!,
                 messageId: "above",
                 fix(fixer) {
-                  const src = sourceCode.getText();
                   const start = comment.range![0];
                   const end = comment.range![1];
                   // Eat spaces before //
@@ -62,7 +69,6 @@ export const commentPosition: Rule.RuleModule = {
                 loc: comment.loc!,
                 messageId: "blockAbove",
                 fix(fixer) {
-                  const src = sourceCode.getText();
                   const commentStart = comment.range![0];
                   const commentEnd = comment.range![1];
                   // Eat spaces after block comment
@@ -96,7 +102,6 @@ export const commentPosition: Rule.RuleModule = {
                 loc: comment.loc!,
                 messageId: "beside",
                 fix(fixer) {
-                  const src = sourceCode.getText();
                   const commentStart = comment.range![0];
                   const commentEnd = comment.range![1];
                   // Remove entire comment line (from line start through trailing \n)
@@ -126,7 +131,6 @@ export const commentPosition: Rule.RuleModule = {
                 loc: comment.loc!,
                 messageId: "blockBeside",
                 fix(fixer) {
-                  const src = sourceCode.getText();
                   const commentStart = comment.range![0];
                   const commentEnd = comment.range![1];
                   // Indentation = whitespace from line start to comment start

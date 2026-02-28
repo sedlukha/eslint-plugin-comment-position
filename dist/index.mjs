@@ -21,6 +21,11 @@ function shouldIgnore(value, options) {
 
 //#endregion
 //#region src/rules/comment-position.ts
+function isJSXComment(comment, src) {
+	if (comment.type !== "Block") return false;
+	const [start, end] = comment.range;
+	return start > 0 && src[start - 1] === "{" && end < src.length && src[end] === "}";
+}
 const commentPosition = {
 	meta: {
 		type: "layout",
@@ -37,8 +42,10 @@ const commentPosition = {
 		const options = context.options[0] ?? {};
 		const sourceCode = context.sourceCode;
 		return { Program() {
+			const src = sourceCode.getText();
 			for (const comment of sourceCode.getAllComments()) {
 				if (shouldIgnore(comment.value, options)) continue;
+				if (isJSXComment(comment, src)) continue;
 				if (options.position === "above") {
 					if (comment.type === "Line") {
 						const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: false });
@@ -48,7 +55,6 @@ const commentPosition = {
 							loc: comment.loc,
 							messageId: "above",
 							fix(fixer) {
-								const src = sourceCode.getText();
 								const start = comment.range[0];
 								const end = comment.range[1];
 								let removeStart = start;
@@ -67,7 +73,6 @@ const commentPosition = {
 							loc: comment.loc,
 							messageId: "blockAbove",
 							fix(fixer) {
-								const src = sourceCode.getText();
 								const commentStart = comment.range[0];
 								let spaceEnd = comment.range[1];
 								while (spaceEnd < src.length && src[spaceEnd] === " ") spaceEnd++;
@@ -88,7 +93,6 @@ const commentPosition = {
 							loc: comment.loc,
 							messageId: "beside",
 							fix(fixer) {
-								const src = sourceCode.getText();
 								const commentStart = comment.range[0];
 								const commentEnd = comment.range[1];
 								const lineStart = src.lastIndexOf("\n", commentStart - 1) + 1;
@@ -108,7 +112,6 @@ const commentPosition = {
 							loc: comment.loc,
 							messageId: "blockBeside",
 							fix(fixer) {
-								const src = sourceCode.getText();
 								const commentStart = comment.range[0];
 								const commentEnd = comment.range[1];
 								const lineStart = src.lastIndexOf("\n", commentStart - 1) + 1;
