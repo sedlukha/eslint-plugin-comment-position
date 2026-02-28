@@ -20,7 +20,7 @@ export const commentPosition: Rule.RuleModule = {
     },
   },
   create(context) {
-    const options = (context.options[0] ?? {}) as CommentPositionOptions;
+    const options = context.options[0] as CommentPositionOptions;
     const sourceCode = context.sourceCode;
 
     return {
@@ -48,7 +48,7 @@ export const commentPosition: Rule.RuleModule = {
                   while (removeStart > 0 && src[removeStart - 1] === " ") removeStart--;
                   // Get line start for insertion
                   const lineStart = src.lastIndexOf("\n", start - 1) + 1;
-                  const indent = src.slice(lineStart, start).match(/^(\s*)/)?.[1] ?? "";
+                  const indent = src.slice(lineStart, start).match(/^\s*/)![0];
                   return [
                     fixer.removeRange([removeStart, end]),
                     fixer.replaceTextRange([lineStart, lineStart], `${indent}//${comment.value}\n`),
@@ -56,8 +56,8 @@ export const commentPosition: Rule.RuleModule = {
                 },
               });
 
-            } else if (comment.type === "Block") {
-              // Only handle single-line block comments (v1 scope)
+            } else {
+              // Block comment — only handle single-line (v1 scope)
               if (comment.loc!.start.line !== comment.loc!.end.line) continue;
 
               // Violation: block comment before code on same line
@@ -76,7 +76,7 @@ export const commentPosition: Rule.RuleModule = {
                   while (spaceEnd < src.length && src[spaceEnd] === " ") spaceEnd++;
                   // Indentation of the current line
                   const lineStart = src.lastIndexOf("\n", commentStart - 1) + 1;
-                  const indent = src.slice(lineStart, commentStart).match(/^(\s*)/)?.[1] ?? "";
+                  const indent = src.slice(lineStart, commentStart).match(/^\s*/)![0];
                   // Replace "/* comment */ " with "/* comment */\n<indent>"
                   return fixer.replaceTextRange(
                     [commentStart, spaceEnd],
@@ -86,7 +86,8 @@ export const commentPosition: Rule.RuleModule = {
               });
             }
 
-          } else if (options.position === "beside") {
+          } else {
+            // position === "beside"
             if (comment.type === "Line") {
               // Violation: standalone line comment directly above code
               const tokenBefore = sourceCode.getTokenBefore(comment as any, { includeComments: false });
@@ -106,8 +107,7 @@ export const commentPosition: Rule.RuleModule = {
                   const commentEnd = comment.range![1];
                   // Remove entire comment line (from line start through trailing \n)
                   const lineStart = src.lastIndexOf("\n", commentStart - 1) + 1;
-                  let removalEnd = commentEnd;
-                  if (src[removalEnd] === "\n") removalEnd++;
+                  const removalEnd = commentEnd + 1; // \n is guaranteed: tokenAfter is on the next line
                   // Find end of code line
                   let codeLineEnd = src.indexOf("\n", tokenAfter.range![0]);
                   if (codeLineEnd === -1) codeLineEnd = src.length;
@@ -118,8 +118,8 @@ export const commentPosition: Rule.RuleModule = {
                 },
               });
 
-            } else if (comment.type === "Block") {
-              // Only single-line block comments (v1)
+            } else {
+              // Block comment — only single-line (v1)
               if (comment.loc!.start.line !== comment.loc!.end.line) continue;
 
               // Violation: block comment before code on same line

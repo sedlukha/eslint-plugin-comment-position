@@ -37,6 +37,8 @@ describe("comment-position rule", () => {
           { code: "// standalone", options: [{ position: "above" }] },
           // Block comment on its own line
           { code: "/* block */\nconst x = 1;", options: [{ position: "above" }] },
+          // Block comment at end of file with no code after (tokenAfter = null)
+          { code: "const x = 1;\n/* trailing */", options: [{ position: "above" }] },
         ],
         invalid: [
           // Basic inline line comment
@@ -182,6 +184,20 @@ describe("comment-position rule", () => {
             options: [{ position: "beside", applyDefaultIgnorePatterns: false }],
             errors: [{ messageId: "beside" }],
             output: "const x = 1; // eslint-disable-next-line no-unused-vars",
+          },
+          // Trailing newline in source — covers codeLineEnd !== -1 branch
+          {
+            code: "// standalone\nconst x = 1;\n",
+            options: [{ position: "beside" }],
+            errors: [{ messageId: "beside" }],
+            output: "const x = 1; // standalone\n",
+          },
+          // Block comment before code, trailing newline — covers codeLineEnd !== -1 branch in block fixer
+          {
+            code: "/* before */ const x = 1;\n",
+            options: [{ position: "beside" }],
+            errors: [{ messageId: "blockBeside" }],
+            output: "const x = 1; /* before */\n",
           },
         ],
       });

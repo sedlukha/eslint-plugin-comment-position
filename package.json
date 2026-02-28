@@ -32,6 +32,7 @@
   "scripts": {
     "build": "tsdown",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest"
   },
   "peerDependencies": {
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^9.6.0",
+    "@vitest/coverage-v8": "4.0.18",
     "eslint": "^9.0.0",
     "tsdown": "0.20.3",
     "typescript": "^5.8.0",
