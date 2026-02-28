@@ -6,6 +6,13 @@ const tester = new RuleTester({
   languageOptions: { ecmaVersion: 2022 },
 });
 
+const jsxTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2022,
+    parserOptions: { ecmaFeatures: { jsx: true } },
+  },
+});
+
 describe("comment-position rule", () => {
   describe("position: above", () => {
     it("passes valid cases and catches invalid ones", () => {
@@ -75,6 +82,41 @@ describe("comment-position rule", () => {
             output: "// eslint-disable-line no-unused-vars\nconst x = 1;",
           },
         ],
+      });
+    });
+  });
+
+  describe("JSX support", () => {
+    it("ignores JSX expression comments for both positions", () => {
+      jsxTester.run("position", commentPosition, {
+        valid: [
+          // Inline JSX comment inside element (position: above)
+          {
+            code: "const el = <div>{/* comment */}</div>;",
+            options: [{ position: "above" }],
+          },
+          // JSX comment on its own line above a child (position: above)
+          {
+            code: "const el = <div>\n  {/* comment */}\n  <span />\n</div>;",
+            options: [{ position: "above" }],
+          },
+          // Multi-line commented-out JSX (position: above)
+          {
+            code: "const el = <div>\n  {/* <span> */}\n  {/*   content */}\n  {/* </span> */}\n</div>;",
+            options: [{ position: "above" }],
+          },
+          // Inline JSX comment inside element (position: beside)
+          {
+            code: "const el = <div>{/* comment */}</div>;",
+            options: [{ position: "beside" }],
+          },
+          // JSX comment on its own line above a child (position: beside)
+          {
+            code: "const el = <div>\n  {/* comment */}\n  <span />\n</div>;",
+            options: [{ position: "beside" }],
+          },
+        ],
+        invalid: [],
       });
     });
   });

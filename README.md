@@ -82,7 +82,9 @@ Enforces that all line (`//`) and single-line block (`/* */`) comments are
 placed either **above** or **beside** the code they describe.
 
 Multi-line block comments (`/* \n ... \n */`) are intentionally ignored — they
-are typically used for JSDoc or file headers.
+are typically used for JSDoc or file headers. JSX expression comments
+(`{/* ... */}`) are also always ignored — they use required wrapper syntax that
+cannot be reformatted.
 
 Unlike the built-in `no-inline-comments` and `line-comment-position` rules (and
 `@stylistic/line-comment-position`), this rule supports `--fix` and will
