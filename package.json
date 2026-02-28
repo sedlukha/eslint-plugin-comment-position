@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sedlukha/eslint-plugin-comment-position.git"
+    "url": "git+https://github.com/sedlukha/eslint-plugin-comment-position.git"
   },
   "keywords": [
     "eslint",
