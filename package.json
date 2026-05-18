@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-comment-position",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "ESLint plugin that enforces a consistent position for line and block comments (above or beside the code they describe), with autofix.",
   "keywords": [
     "eslint",
