@@ -1,3 +1,13 @@
-node_modules/
-dist/
-coverage/
+node_modules
+dist
+coverage
+.DS_Store
+*.log
+.env
+.env.local
+.idea
+.vscode
+*.tgz
+*.tsbuildinfo
+pnpm-lock.yaml
+yarn.lock
