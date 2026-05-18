@@ -19,8 +19,8 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run test:coverage
+      - run: npm run typecheck
 
-      - uses: codecov/codecov-action@v5
-        with:
-          files: ./coverage/lcov.info
+      - run: npm test
+
+      - run: npm run build

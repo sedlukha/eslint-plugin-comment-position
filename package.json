@@ -1,24 +1,7 @@
 {
   "name": "eslint-plugin-comment-position",
   "version": "0.4.3",
-  "license": "MIT",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sedlukha/eslint-plugin-comment-position.git"
-  },
+  "description": "ESLint plugin that enforces a consistent position for line and block comments (above or beside the code they describe), with autofix.",
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -30,11 +13,41 @@
     "autofix",
     "formatting"
   ],
+  "license": "MIT",
+  "author": "sedlukha",
+  "homepage": "https://github.com/sedlukha/eslint-plugin-comment-position#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedlukha/eslint-plugin-comment-position.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sedlukha/eslint-plugin-comment-position/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsdown",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm test"
   },
   "peerDependencies": {
     "eslint": "^9.0.0 || ^10.0.0"
